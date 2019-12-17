@@ -23,8 +23,15 @@ public class Inventory {
         allProducts.add(product);
     }
 
-    public AbstractPart lookupPart(int partId) {
-        return null;
+    public static AbstractPart lookupPart(int partId) {
+        AbstractPart targetPart = null;
+        for(AbstractPart part : allParts) {
+            if(part.getId() == partId) {
+                targetPart = part;
+            }
+        }
+
+        return targetPart;
     }
 
     public Product lookupProduct(int productId) {
@@ -39,11 +46,19 @@ public class Inventory {
 
     }
 
-    public boolean deletePart(AbstractPart selectedPart) {
-        return true;
+    public static boolean deletePart(int partId) {
+        boolean isSuccess =  false;
+        for(AbstractPart part : allParts) {
+            if(part.getId() == partId) {
+                allParts.remove(part);
+                isSuccess = true;
+            }
+        }
+
+        return isSuccess;
     }
 
-    public boolean deleteProduct(Product product) {
+    public static boolean deleteProduct(Product product) {
         return true;
     }
 

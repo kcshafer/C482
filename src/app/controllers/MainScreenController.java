@@ -36,8 +36,8 @@ public class MainScreenController {
     @FXML
     public void initialize() {
         this.setCellValueFactories();
-        this.partsTable.setItems(Inventory.getParts());
-        this.productsTable.setItems(Inventory.getProducts());
+        this.loadPartsTable();
+        this.loadProductsTable();
     }
 
     public static AbstractPart getSelectedPart() {
@@ -75,8 +75,8 @@ public class MainScreenController {
     @FXML
     public void onSearchPartClick(ActionEvent actionEvent) throws IOException {
         //use inventory search to find part by id
-
-        //if part is found set to selected part otherwise show error
+        int partId = Integer.parseInt(partIdColumn.getText());
+        selectedPart = Inventory.lookupPart(partId);
 
         this.openPartScreen(actionEvent);
     }
@@ -95,9 +95,9 @@ public class MainScreenController {
 
     @FXML
     public void onDeletePartClick(ActionEvent actionEvent) {
-        //delete part using inventory interface
-
-        System.out.println("Delete PART");
+        AbstractPart part = (AbstractPart) partsTable.getSelectionModel().getSelectedItem();
+        Boolean isDeleted = Inventory.deletePart(part.getId());
+        this.loadPartsTable();
     }
 
     private void openPartScreen(ActionEvent actionEvent) throws IOException {
@@ -130,5 +130,13 @@ public class MainScreenController {
         productNameCol.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
         productInvLevelCol.setCellValueFactory(new PropertyValueFactory<Product, String>("stock"));
         productPriceCol.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
+    }
+
+    private void loadPartsTable() {
+        this.partsTable.setItems(Inventory.getParts());
+    }
+
+    private void loadProductsTable() {
+        this.productsTable.setItems(Inventory.getProducts());
     }
 }

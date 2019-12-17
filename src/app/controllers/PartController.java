@@ -37,6 +37,7 @@ public class PartController {
     @FXML
     public void initialize() {
         this.setFieldToMachineId();
+        this.setModifiedPartFields();
     }
 
     public void onSelectInHouse(ActionEvent actionEvent) {
@@ -127,5 +128,21 @@ public class PartController {
         Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
         window.setScene(partsScene);
         window.show();
+    }
+
+    private void setModifiedPartFields() {
+        AbstractPart part = getSelectedPart();
+
+        // if part is not null, this is a modification so set the fields to the mod part values
+        if(part != null) {
+            idField.setText(String.valueOf(part.getId()));
+            nameField.setText(part.getName());
+            inventoryCountField.setText(String.valueOf(part.getStock()));
+            priceField.setText(String.valueOf(part.getPrice()));
+            minField.setText(String.valueOf(part.getMin()));
+            maxField.setText(String.valueOf(part.getMax()));
+
+            //TODO: can't set the variable field w/o knowing the basetype of the part
+        }
     }
 }
