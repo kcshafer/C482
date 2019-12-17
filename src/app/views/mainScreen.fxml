@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="app.controllers.MainScreenController"
+            prefHeight="400.0" prefWidth="600.0">
+    <Label layoutX="24.0" layoutY="30.0" text="Inventory Management">
+        <font>
+            <Font size="24.0" />
+        </font>
+    </Label>
+    <AnchorPane layoutX="30.0" layoutY="75.0">
+        <!-- parts block -->
+        <AnchorPane prefHeight="400.0" prefWidth="500.0" style="-fx-border-color: #aaaaaa; -fx-border-radius: 4;">
+            <Label layoutX="24.0" layoutY="5.0" text="Parts">
+                <font>
+                    <Font size="18.0"/>
+                </font>
+            </Label>
+            <AnchorPane layoutX="245.0" layoutY="13.0">
+                <Button text="Search" prefWidth="70" onAction="#onSearchPartClick" />
+                <TextField layoutX="85.0" layoutY="2.0" prefWidth="150.0" promptText="Search Parts" />
+            </AnchorPane>
+            <TableView fx:id="partsTable" layoutX="20.0" layoutY="50.0" prefHeight="300.0" prefWidth="460.0">
+                <columns>
+                    <TableColumn fx:id="partIdColumn" prefWidth="115.0" text="Part Id" />
+                    <TableColumn fx:id="partNameColumn" prefWidth="115.0" text="Part Name" />
+                    <TableColumn fx:id="partInvLevelStockCol" prefWidth="115.0" text="Inv Level" />
+                    <TableColumn fx:id="partPriceCol" prefWidth="115.0" text="Price Per Unit" />
+                </columns>
+            </TableView>
+            <AnchorPane layoutX="280.0" layoutY="361.0">
+                <Button prefWidth="60.0" text="Add" onAction="#onAddPartClick" />
+                <Button layoutX="70.0" prefWidth="60.0" text="Modify" onAction="#onModifyPartClick" />
+                <Button layoutX="140.0" prefWidth="60.0" text="Delete" onAction="#onDeletePartClick" />
+            </AnchorPane>
+        </AnchorPane>
+        <!-- end parts block -->
+
+        <!-- Products block -->
+        <AnchorPane layoutX="550.0" prefHeight="400.0" prefWidth="500.0" style="-fx-border-color: #aaaaaa; -fx-border-radius: 4;">
+            <Label layoutX="20.0" layoutY="5.0" text="Products">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Label>
+            <AnchorPane layoutX="245.0" layoutY="15.0">
+                <Button prefWidth="75.0" text="Search" onAction="#onSearchProductClick" />
+                <TextField fx:id="productsSearchField" layoutX="85.0" prefWidth="150.0" promptText="Search Products" />
+            </AnchorPane>
+            <TableView fx:id="productsTable" layoutX="20.0" layoutY="50.0" prefHeight="300.0"  prefWidth="460.0">
+                <columns>
+                    <TableColumn fx:id="productIdCol" prefWidth="115.0" text="Product Id" />
+                    <TableColumn fx:id="productNameCol" prefWidth="115.0" text="Product Name" />
+                    <TableColumn fx:id="productInvLevelCol" prefWidth="115.0" text="Inv Level" />
+                    <TableColumn fx:id="productPriceCol" prefWidth="115.0" text="Price Per Unit" />
+                </columns>
+            </TableView>
+            <AnchorPane layoutX="280.0" layoutY="361.0">
+                <Button prefHeight="27.0" prefWidth="60.0" text="Add" onAction="#onAddProductClick" />
+                <Button layoutX="70.0" prefWidth="60.0" text="Modify" onAction="#onModifyProductClick" />
+                <Button layoutX="140.0" prefWidth="60.0" text="Delete" onAction="#onDeleteProductClick" />
+            </AnchorPane>
+        </AnchorPane>
+        <!-- end products block -->
+    </AnchorPane>
+    <Button fx:id="exitButton" layoutX="1000.0" layoutY="490.0" prefHeight="30.0" prefWidth="60.0" text="Exit" />
+</AnchorPane>
