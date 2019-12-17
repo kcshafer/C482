@@ -88,7 +88,7 @@ public class MainScreenController {
 
     @FXML
     public void onModifyPartClick(ActionEvent actionEvent) throws IOException {
-        //get selected part
+        selectedPart = (AbstractPart)partsTable.getSelectionModel().getSelectedItem();
 
         this.openPartScreen(actionEvent);
     }
