@@ -1,5 +1,8 @@
 package app.controllers;
 
+import app.models.AbstractPart;
+import app.models.Inventory;
+import app.models.Product;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -27,7 +31,18 @@ public class MainScreenController {
     public TableColumn productPriceCol;
     public TableView productsTable;
 
-    //private static AbstractPart selectedPart;
+    private static AbstractPart selectedPart;
+
+    @FXML
+    public void initialize() {
+        this.setCellValueFactories();
+        this.partsTable.setItems(Inventory.getParts());
+        this.productsTable.setItems(Inventory.getProducts());
+    }
+
+    public static AbstractPart getSelectedPart() {
+        return selectedPart;
+    }
 
     @FXML
     public void onSearchProductClick(ActionEvent actionEvent) throws IOException {
@@ -103,5 +118,17 @@ public class MainScreenController {
         Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
         window.setScene(partsScene);
         window.show();
+    }
+
+    private void setCellValueFactories() {
+        partIdColumn.setCellValueFactory(new PropertyValueFactory<AbstractPart, String>("id"));
+        partNameColumn.setCellValueFactory(new PropertyValueFactory<AbstractPart, String>("name"));
+        partInvLevelStockCol.setCellValueFactory(new PropertyValueFactory<AbstractPart, String>("stock"));
+        partPriceCol.setCellValueFactory(new PropertyValueFactory<AbstractPart, String>("price"));
+
+        productIdCol.setCellValueFactory(new PropertyValueFactory<Product, String>("id"));
+        productNameCol.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
+        productInvLevelCol.setCellValueFactory(new PropertyValueFactory<Product, String>("stock"));
+        productPriceCol.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
     }
 }
