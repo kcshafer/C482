@@ -3,6 +3,8 @@ package app.controllers;
 import app.models.AbstractPart;
 import app.models.Inventory;
 import app.models.Product;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -74,11 +76,17 @@ public class MainScreenController {
 
     @FXML
     public void onSearchPartClick(ActionEvent actionEvent) throws IOException {
-        //use inventory search to find part by id
-        int partId = Integer.parseInt(partIdColumn.getText());
-        selectedPart = Inventory.lookupPart(partId);
+        String partSearchText = partsSearchText.getText();
+        if (!partSearchText.isBlank()) {
+            int partId = Integer.parseInt(partSearchText);
+            AbstractPart part = Inventory.lookupPart(partId);
 
-        this.openPartScreen(actionEvent);
+            ObservableList<AbstractPart> parts = FXCollections.observableArrayList(part);
+
+            partsTable.setItems(parts);
+        } else {
+            this.loadPartsTable();
+        }
     }
 
     @FXML
