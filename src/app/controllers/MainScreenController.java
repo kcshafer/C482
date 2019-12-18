@@ -34,6 +34,7 @@ public class MainScreenController {
     public TableView productsTable;
 
     private static AbstractPart selectedPart;
+    private static Product selectedProduct;
 
     @FXML
     public void initialize() {
@@ -44,6 +45,10 @@ public class MainScreenController {
 
     public static AbstractPart getSelectedPart() {
         return selectedPart;
+    }
+
+    public static Product getSelectedProduct() {
+        return selectedProduct;
     }
 
     @FXML

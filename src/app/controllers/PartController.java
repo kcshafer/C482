@@ -104,7 +104,6 @@ public class PartController {
             Inventory.updatePart(part.getId(), part);
         }
 
-        selectedPart = null;
         this.openMainScreen(actionEvent);
     }
 

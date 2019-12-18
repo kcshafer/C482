@@ -70,6 +70,10 @@ public class Inventory {
         return allParts.size();
     }
 
+    public static Integer getProductCount() {
+        return allProducts.size();
+    }
+
     public static ObservableList<AbstractPart> getParts() {
         return allParts;
     }
