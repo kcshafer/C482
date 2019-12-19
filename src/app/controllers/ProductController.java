@@ -77,6 +77,18 @@ public class ProductController {
         currentPartsTable.setItems(productParts);
     }
 
+    public void addPartToProduct(ActionEvent actionEvent) {
+        AbstractPart part = (AbstractPart)allPartsTable.getSelectionModel().getSelectedItem();
+        allPartsTable.getItems().remove(part);
+        currentPartsTable.getItems().add(part);
+    }
+
+    public void removePartToProduct(ActionEvent actionEvent) {
+        AbstractPart part = (AbstractPart)currentPartsTable.getSelectionModel().getSelectedItem();
+        currentPartsTable.getItems().remove(part);
+        allPartsTable.getItems().add(part);
+    }
+
     public void onSaveClick(ActionEvent actionEvent) {
         System.out.println("Save PRODUCT");
     }
