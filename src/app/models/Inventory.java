@@ -53,20 +53,12 @@ public class Inventory {
         allProducts.set(index, updatedProduct);
     }
 
-    public static boolean deletePart(int partId) {
-        boolean isSuccess =  false;
-        for(AbstractPart part : allParts) {
-            if(part.getId() == partId) {
-                allParts.remove(part);
-                isSuccess = true;
-            }
-        }
-
-        return isSuccess;
+    public static void deletePart(AbstractPart part) {
+        allParts.remove(part);
     }
 
-    public static boolean deleteProduct(Product product) {
-        return true;
+    public static void deleteProduct(Product product) {
+        allProducts.remove(product);
     }
 
     public static ObservableList<AbstractPart> getAllParts() {

@@ -84,9 +84,9 @@ public class MainScreenController {
 
     @FXML
     public void onDeleteProductClick(ActionEvent actionEvent) {
-        //delete part using inventory interface
-
-        System.out.println("Delete PRODUCT");
+        Product product = (Product)productsTable.getSelectionModel().getSelectedItem();
+        Inventory.deleteProduct(product);
+        this.loadProductsTable();
     }
 
     @FXML
@@ -119,7 +119,7 @@ public class MainScreenController {
     @FXML
     public void onDeletePartClick(ActionEvent actionEvent) {
         AbstractPart part = (AbstractPart) partsTable.getSelectionModel().getSelectedItem();
-        Boolean isDeleted = Inventory.deletePart(part.getId());
+        Inventory.deletePart(part);
         this.loadPartsTable();
     }
 
