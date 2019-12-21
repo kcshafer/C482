@@ -162,4 +162,8 @@ public class MainScreenController {
     private void loadProductsTable() {
         this.productsTable.setItems(Inventory.getProducts());
     }
+
+    public void onExitClick(ActionEvent actionEvent) {
+        System.exit(0);
+    }
 }
