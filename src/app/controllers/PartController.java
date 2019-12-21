@@ -119,8 +119,6 @@ public class PartController {
 
 
     private void openMainScreen(ActionEvent actionEvent) throws IOException {
-        //TODO: not super familiar with desktop apps, but would be best to store these paths as absolute and in
-        // a single file
         final String MAIN_SCREEN_PATH = "../views/MainScreen.fxml";
         Parent partsScreenLoader = FXMLLoader.load(getClass().getResource(MAIN_SCREEN_PATH));
 

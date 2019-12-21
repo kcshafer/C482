@@ -51,13 +51,23 @@ public class MainScreenController {
         return selectedProduct;
     }
 
+    public static void setSelectedProduct(Product product) {
+        selectedProduct = product;
+    }
+
     @FXML
     public void onSearchProductClick(ActionEvent actionEvent) throws IOException {
-        //use inventory search to find part by id
+        String productSearchText = productsSearchField.getText();
+        if (!productSearchText.isBlank()) {
+            int productId = Integer.parseInt(productSearchText);
+            Product product = Inventory.lookupProduct(productId);
 
-        //if part is found set to selected part otherwise show error
+            ObservableList<Product> products = FXCollections.observableArrayList(product);
 
-        this.openProductScreen(actionEvent);
+            productsTable.setItems(products);
+        } else {
+            this.loadProductsTable();
+        }
     }
 
     @FXML
@@ -67,7 +77,7 @@ public class MainScreenController {
 
     @FXML
     public void onModifyProductClick(ActionEvent actionEvent) throws IOException {
-        //get selected product and assign to selectedProduct
+        selectedProduct = (Product)productsTable.getSelectionModel().getSelectedItem();
 
         this.openProductScreen(actionEvent);
     }

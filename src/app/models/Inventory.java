@@ -34,16 +34,23 @@ public class Inventory {
         return targetPart;
     }
 
-    public Product lookupProduct(int productId) {
-        return null;
+    public static Product lookupProduct(int productId) {
+        Product targetProduct = null;
+        for(Product product : allProducts) {
+            if(product.getId() == productId) {
+                targetProduct = product;
+            }
+        }
+
+        return targetProduct;
     }
 
     public static void updatePart(int index, AbstractPart part) {
         allParts.set(index, part);
     }
 
-    public void updateProduct(int index, Product newProduct) {
-
+    public static void updateProduct(int index, Product updatedProduct) {
+        allProducts.set(index, updatedProduct);
     }
 
     public static boolean deletePart(int partId) {

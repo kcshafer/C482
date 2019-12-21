@@ -19,6 +19,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import static app.controllers.MainScreenController.getSelectedProduct;
+import static app.controllers.MainScreenController.setSelectedProduct;
 
 public class ProductController {
     public TextField idField;
@@ -40,10 +41,13 @@ public class ProductController {
     public TableColumn currentPartsPriceColumn;
 
     private ObservableList<AbstractPart> productParts;
+    private Product selectedProduct;
 
     public void initialize() {
-        Product selectedProduct = getSelectedProduct();
+        this.selectedProduct = getSelectedProduct();
         productParts = FXCollections.observableArrayList();
+
+        System.out.println(selectedProduct);
 
         //if selected part is null, this is a modification
         if(selectedProduct == null) {
@@ -51,14 +55,8 @@ public class ProductController {
             idField.setText(String.valueOf(productId));
         }
         else {
-            idField.setText(String.valueOf(selectedProduct.getId()));
-            nameField.setText(selectedProduct.getName());
-            inStockField.setText(String.valueOf(selectedProduct.getStock()));
-            priceField.setText(String.valueOf(selectedProduct.getPrice()));
-            minField.setText(String.valueOf(selectedProduct.getMin()));
-            maxField.setText(String.valueOf(selectedProduct.getMax()));
-
             this.setModifiedProductFields(selectedProduct);
+
             productParts = selectedProduct.getAllAssociatedParts();
         }
 
@@ -77,9 +75,11 @@ public class ProductController {
         currentPartsTable.setItems(productParts);
     }
 
-    public void addPartToProduct(ActionEvent actionEvent) {
+    public void addPartToProduct() {
         AbstractPart part = (AbstractPart)allPartsTable.getSelectionModel().getSelectedItem();
+        System.out.println(Inventory.getProductCount());
         allPartsTable.getItems().remove(part);
+        System.out.println(Inventory.getProductCount());
         currentPartsTable.getItems().add(part);
     }
 
@@ -89,18 +89,39 @@ public class ProductController {
         allPartsTable.getItems().add(part);
     }
 
-    public void onSaveClick(ActionEvent actionEvent) {
-        System.out.println("Save PRODUCT");
+    public void onSaveClick(ActionEvent actionEvent) throws IOException {
+        String productName = nameField.getText();
+        String productInv = inStockField.getText();
+        String productPrice = priceField.getText();
+        String productMin = minField.getText();
+        String productMax = maxField.getText();
+
+        Product product = new Product();
+        product.setName(productName);
+        product.setStock(Integer.parseInt(productInv));
+        product.setPrice(Double.parseDouble(productPrice));
+        product.setMin(Integer.parseInt(productMin));
+        product.setMax(Integer.valueOf(productMax));
+
+        for(AbstractPart part : productParts) {
+            product.addAssociatedPart(part);
+        }
+
+        if(this.selectedProduct != null) {
+            selectedProduct.deleteAllAssociatedParts();
+            product.setId(selectedProduct.getId());
+            Inventory.updateProduct(selectedProduct.getId(), product);
+        }
+        else {
+            product.setId(Inventory.getProductCount());
+            Inventory.addProduct(product);
+        }
+
+        this.openMainScreen(actionEvent);
     }
 
     public void onCancelClick(ActionEvent actionEvent) throws IOException {
-        final String PART_SCREEN_PATH = "../views/MainScreen.fxml";
-        Parent partsScreenLoader = FXMLLoader.load(getClass().getResource(PART_SCREEN_PATH));
-
-        Scene partsScene = new Scene(partsScreenLoader);
-        Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        window.setScene(partsScene);
-        window.show();
+        this.openMainScreen(actionEvent);
     }
 
     private void setModifiedProductFields(Product product) {
@@ -110,5 +131,17 @@ public class ProductController {
         priceField.setText(String.valueOf(product.getPrice()));
         minField.setText(String.valueOf(product.getMin()));
         maxField.setText(String.valueOf(product.getMax()));
+    }
+
+    private void openMainScreen(ActionEvent actionEvent) throws IOException {
+        setSelectedProduct(null);
+
+        final String MAIN_SCREEN_PATH = "../views/MainScreen.fxml";
+        Parent partsScreenLoader = FXMLLoader.load(getClass().getResource(MAIN_SCREEN_PATH));
+
+        Scene partsScene = new Scene(partsScreenLoader);
+        Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        window.setScene(partsScene);
+        window.show();
     }
 }
