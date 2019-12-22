@@ -38,6 +38,8 @@ public class MainScreenController {
 
     @FXML
     public void initialize() {
+        System.out.println("Main controller init get parts");
+        System.out.println(Inventory.getParts().size());
         this.setCellValueFactories();
         this.loadPartsTable();
         this.loadProductsTable();
@@ -76,6 +78,8 @@ public class MainScreenController {
 
     @FXML
     public void onAddProductClick(ActionEvent actionEvent) throws IOException {
+        System.out.println("on add product click get parts");
+        System.out.println(Inventory.getParts().size());
         this.openProductScreen(actionEvent);
     }
 

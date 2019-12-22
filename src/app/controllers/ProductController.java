@@ -46,6 +46,8 @@ public class ProductController {
     private Product selectedProduct;
 
     public void initialize() {
+        System.out.println("Init Product controller");
+        System.out.println(Inventory.getParts().size());
         this.selectedProduct = getSelectedProduct();
         productParts = FXCollections.observableArrayList();
 
@@ -72,16 +74,23 @@ public class ProductController {
         currentPartsInStockColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("stock"));
         currentPartsPriceColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
 
-        allPartsTable.setItems(Inventory.getParts());
+        // this assigns the parts to new memory so that the inventory parts array is separate memory assignment from
+        // the product all parts table array
+        ObservableList<AbstractPart> parts = FXCollections.observableArrayList();
+        parts.addAll(Inventory.getParts());
+
+        allPartsTable.setItems(parts);
 
         currentPartsTable.setItems(productParts);
     }
 
     public void addPartToProduct() {
         AbstractPart part = (AbstractPart)allPartsTable.getSelectionModel().getSelectedItem();
-        System.out.println(Inventory.getProductCount());
+        System.out.println("add part to product get parts");
+        System.out.println(System.identityHashCode(Inventory.getParts()));
+        System.out.println(System.identityHashCode(Inventory.getParts()));
         allPartsTable.getItems().remove(part);
-        System.out.println(Inventory.getProductCount());
+        System.out.println(Inventory.getParts().hashCode());
         currentPartsTable.getItems().add(part);
     }
 
