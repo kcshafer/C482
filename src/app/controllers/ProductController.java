@@ -46,8 +46,6 @@ public class ProductController {
     private Product selectedProduct;
 
     public void initialize() {
-        System.out.println("Init Product controller");
-        System.out.println(Inventory.getParts().size());
         this.selectedProduct = getSelectedProduct();
         productParts = FXCollections.observableArrayList();
 
@@ -74,14 +72,9 @@ public class ProductController {
         currentPartsInStockColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("stock"));
         currentPartsPriceColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
 
-        // this assigns the parts to new memory so that the inventory parts array is separate memory assignment from
-        // the product all parts table array
-        ObservableList<AbstractPart> parts = FXCollections.observableArrayList();
-        parts.addAll(Inventory.getParts());
+        this.populateAllPartsTable();
 
-        allPartsTable.setItems(parts);
-
-        currentPartsTable.setItems(productParts);
+        this.currentPartsTable.setItems(productParts);
     }
 
     public void addPartToProduct() {
@@ -151,6 +144,24 @@ public class ProductController {
         priceField.setText(String.valueOf(product.getPrice()));
         minField.setText(String.valueOf(product.getMin()));
         maxField.setText(String.valueOf(product.getMax()));
+    }
+
+    private void populateAllPartsTable() {
+        // this assigns the parts to new memory so that the inventory parts array is separate memory assignment from
+        // the product all parts table array
+        ObservableList<AbstractPart> parts = FXCollections.observableArrayList();
+        ObservableList<AbstractPart> associatedParts = this.selectedProduct != null ?
+                                                       this.selectedProduct.getAllAssociatedParts() :
+                                                       FXCollections.observableArrayList();
+
+        //this prevents adding parts that are already associated to the product to the all parts table
+        for(AbstractPart part : Inventory.getParts()) {
+            if(!associatedParts.contains(part)) {
+               parts.add(part);
+            }
+        }
+
+        this.allPartsTable.setItems(parts);
     }
 
     private void openMainScreen(ActionEvent actionEvent) throws IOException {
