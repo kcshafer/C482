@@ -1,5 +1,6 @@
 package app.models;
 
+import app.exceptions.ModelValidationException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -80,5 +81,23 @@ public class Product {
 
     public void setMax(int max) {
         this.max = max;
+    }
+
+    public void isValid() throws ModelValidationException {
+        if(this.associatedParts.size() == 0) {
+            throw new ModelValidationException("Product needs at least one associated part");
+        }
+
+        if(this.name.equals("")) {
+            throw new ModelValidationException("Product must have a name");
+        }
+
+        if(this.price == 0.0) {
+            throw new ModelValidationException("Product must have a price");
+        }
+
+        if(this.stock == 0) {
+            throw new ModelValidationException("Product must have an inventory level");
+        }
     }
 }

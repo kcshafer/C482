@@ -2,6 +2,7 @@ package app.controllers;
 
 import java.io.IOException;
 
+import app.exceptions.ModelValidationException;
 import app.models.AbstractPart;
 import app.models.Inventory;
 import app.models.Product;
@@ -12,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -98,26 +100,35 @@ public class ProductController {
 
         Product product = new Product();
         product.setName(productName);
-        product.setStock(Integer.parseInt(productInv));
-        product.setPrice(Double.parseDouble(productPrice));
-        product.setMin(Integer.parseInt(productMin));
-        product.setMax(Integer.valueOf(productMax));
+        product.setStock(Integer.parseInt(productInv.equals("") ? "0" : productInv));
+        product.setPrice(Double.parseDouble(productPrice.equals("") ? "0"  : productPrice));
+        product.setMin(Integer.parseInt(productMin.equals("") ? "0" : productMin));
+        product.setMax(Integer.parseInt(productMax.equals("") ? "0" : productMax));
 
         for(AbstractPart part : productParts) {
             product.addAssociatedPart(part);
         }
 
-        if(this.selectedProduct != null) {
-            selectedProduct.deleteAllAssociatedParts();
-            product.setId(selectedProduct.getId());
-            Inventory.updateProduct(selectedProduct.getId(), product);
-        }
-        else {
-            product.setId(Inventory.getProductCount());
-            Inventory.addProduct(product);
-        }
+        try {
+            product.isValid();;
 
-        this.openMainScreen(actionEvent);
+            if (this.selectedProduct != null) {
+                selectedProduct.deleteAllAssociatedParts();
+                product.setId(selectedProduct.getId());
+                Inventory.updateProduct(selectedProduct.getId(), product);
+            } else {
+                product.setId(Inventory.getProductCount());
+                Inventory.addProduct(product);
+            }
+
+            this.openMainScreen(actionEvent);
+        } catch (ModelValidationException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Model Validation Error");
+            alert.setHeaderText("Product not valid");
+            alert.setContentText(ex.getMessage());
+            alert.show();
+        }
     }
 
     public void onCancelClick(ActionEvent actionEvent) throws IOException {
