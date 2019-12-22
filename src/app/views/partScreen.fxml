@@ -1,29 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="360.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/"
-            xmlns:fx="http://javafx.com/fxml/ " fx:controller="app.controllers.PartController">
+<AnchorPane id="AnchorPane" prefHeight="360.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controllers.PartController">
     <Label layoutX="30.0" layoutY="30.0" prefHeight="24.0" prefWidth="120.0" text="Modify Part">
         <font>
-            <Font size="18.0"/>
+            <Font size="18.0" />
         </font>
     </Label>
     <AnchorPane layoutX="177.0" layoutY="30.0">
-        <RadioButton fx:id="inHouseRadioBtn" prefHeight="24.0" prefWidth="120.0" selected="true" text="In-House"
-                     onAction="#onSelectInHouse">
+        <RadioButton fx:id="inHouseRadioBtn" onAction="#onSelectInHouse" prefHeight="24.0" prefWidth="120.0" selected="true" text="In-House">
             <toggleGroup>
                 <ToggleGroup fx:id="sourceTypeToggleGroup" />
             </toggleGroup>
         </RadioButton>
-        <RadioButton fx:id="outsourcedRadioBtn" layoutX="120.0" prefHeight="24.0" prefWidth="120.0" text="Outsourced"
-                     toggleGroup="$sourceTypeToggleGroup" onAction="#onSelectOutsourced"/>
+        <RadioButton fx:id="outsourcedRadioBtn" layoutX="120.0" onAction="#onSelectOutsourced" prefHeight="24.0" prefWidth="120.0" text="Outsourced" toggleGroup="$sourceTypeToggleGroup" />
     </AnchorPane>
     <AnchorPane layoutX="45.0" layoutY="60.0">
         <Label layoutY="8.0" prefHeight="16.0" prefWidth="120.0" text="Id" />
@@ -32,25 +25,17 @@
         <Label layoutY="128.0" prefHeight="16.0" prefWidth="120.0" text="Price/Cost" />
         <Label layoutY="168.0" prefHeight="16.0" prefWidth="75.0" text="Min" />
         <Label layoutX="225.0" layoutY="168.0" prefHeight="16.0" prefWidth="60.0" text="Max" />
-        <Label layoutY="208.0" prefHeight="17.0" prefWidth="120.0" fx:id="sourceTypeConditionalLabel"
-               text="Company Name" />
-        <TextField fx:id="idField" disable="true" editable="false" layoutX="120.0" prefHeight="30.0"
-                   prefWidth="150.0" promptText="Auto Gen - Disabled" />
-        <TextField fx:id="nameField" layoutX="120.0" layoutY="40.0" prefHeight="30.0" prefWidth="150.0"
-                   promptText="Part Name" />
-        <TextField fx:id="inventoryCountField" layoutX="120.0" layoutY="80.0" prefHeight="30.0" prefWidth="150.0"
-                   promptText="Inv" />
-        <TextField fx:id="priceField" layoutX="120.0" layoutY="120.0" prefHeight="30.0" prefWidth="150.0"
-                   promptText="Price/Cost" />
-        <TextField fx:id="minField" layoutX="120.0" layoutY="160.0" prefHeight="30.0" prefWidth="90.0"
-                   promptText="Minimum Inventory" />
-        <TextField fx:id="maxField" layoutX="285.0" layoutY="162.0" prefHeight="30.0" prefWidth="90.0"
-                   promptText="Maximum Inventory" />
-        <TextField fx:id="sourceTypeConditionalField" layoutX="120.0" layoutY="202.0" prefHeight="30.0"
-                   prefWidth="150.0" />
+        <Label fx:id="sourceTypeConditionalLabel" layoutY="208.0" prefHeight="17.0" prefWidth="120.0" text="Company Name" />
+        <TextField fx:id="idField" disable="true" editable="false" layoutX="120.0" prefHeight="30.0" prefWidth="150.0" promptText="Auto Gen - Disabled" />
+        <TextField fx:id="nameField" layoutX="120.0" layoutY="40.0" prefHeight="30.0" prefWidth="150.0" promptText="Part Name" />
+        <TextField fx:id="inventoryCountField" layoutX="120.0" layoutY="80.0" prefHeight="30.0" prefWidth="150.0" promptText="Inv" />
+        <TextField fx:id="priceField" layoutX="120.0" layoutY="120.0" prefHeight="30.0" prefWidth="150.0" promptText="Price/Cost" />
+        <TextField fx:id="minField" layoutX="120.0" layoutY="160.0" prefHeight="30.0" prefWidth="90.0" promptText="Minimum Inventory" />
+        <TextField fx:id="maxField" layoutX="285.0" layoutY="162.0" prefHeight="30.0" prefWidth="90.0" promptText="Maximum Inventory" />
+        <TextField fx:id="sourceTypeConditionalField" layoutX="120.0" layoutY="202.0" prefHeight="30.0" prefWidth="150.0" />
     </AnchorPane>
     <AnchorPane layoutX="120.0" layoutY="300.0">
-        <Button prefWidth="90.0" layoutX="120.0" onAction="#onSaveClick" text="Save" />
-        <Button prefWidth="90.0" layoutX="220.0" text="Cancel" onAction="#onCancelClick"/>
+        <Button layoutX="135.0" onAction="#onSaveClick" prefHeight="27.0" prefWidth="75.0" text="Save" />
+        <Button layoutX="235.0" onAction="#onCancelClick" prefHeight="27.0" prefWidth="75.0" text="Cancel" />
     </AnchorPane>
 </AnchorPane>

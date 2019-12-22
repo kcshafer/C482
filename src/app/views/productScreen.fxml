@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="520.0" prefWidth="860.0" xmlns="http://javafx.com/javafx/8.0.141"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controllers.ProductController">
-    <AnchorPane layoutX="30.0" layoutY="30.0">
-        <Label prefHeight="24.0" text="Add Product">
+<AnchorPane id="AnchorPane" prefHeight="520.0" prefWidth="860.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controllers.ProductController">
+    <AnchorPane layoutX="23.0" layoutY="23.0" prefHeight="475.0" prefWidth="823.0">
+        <Label layoutX="14.0" layoutY="14.0" prefHeight="24.0" text="Add Product">
             <font>
                 <Font size="18.0" />
             </font>
@@ -24,24 +18,16 @@
             <Label layoutY="128.0" prefHeight="16.0" prefWidth="45.0" text="Price" />
             <Label layoutY="168.0" prefHeight="16.0" prefWidth="45.0" text="Min" />
             <Label layoutX="135.0" layoutY="168.0" prefHeight="16.0" prefWidth="45.0" text="Max" />
-            <TextField fx:id="idField" disable="true" editable="false" layoutX="45.0" prefHeight="30.0"
-                       prefWidth="120.0" promptText="ID" />
-            <TextField fx:id="nameField" layoutX="45.0" layoutY="40.0" prefHeight="30.0"
-                       prefWidth="120.0" promptText="Name" />
-            <TextField fx:id="inStockField" layoutX="45.0" layoutY="80.0" prefHeight="30.0"
-                       prefWidth="120.0" promptText="Inv" />
-            <TextField fx:id="priceField" layoutX="45.0" layoutY="120.0" prefHeight="30.0"
-                       prefWidth="120.0" promptText="Price" />
-            <TextField fx:id="minField" layoutX="45.0" layoutY="160.0" prefHeight="30.0"
-                       prefWidth="75.0" promptText="Min" />
-            <TextField fx:id="maxField" layoutX="180.0" layoutY="160.0" prefHeight="30.0"
-                       prefWidth="75.0" promptText="Max" />
+            <TextField fx:id="idField" disable="true" editable="false" layoutX="45.0" prefHeight="30.0" prefWidth="120.0" promptText="ID" />
+            <TextField fx:id="nameField" layoutX="45.0" layoutY="40.0" prefHeight="30.0" prefWidth="120.0" promptText="Name" />
+            <TextField fx:id="inStockField" layoutX="45.0" layoutY="80.0" prefHeight="30.0" prefWidth="120.0" promptText="Inv" />
+            <TextField fx:id="priceField" layoutX="45.0" layoutY="120.0" prefHeight="30.0" prefWidth="120.0" promptText="Price" />
+            <TextField fx:id="minField" layoutX="45.0" layoutY="160.0" prefHeight="30.0" prefWidth="75.0" promptText="Min" />
+            <TextField fx:id="maxField" layoutX="180.0" layoutY="160.0" prefHeight="30.0" prefWidth="75.0" promptText="Max" />
         </AnchorPane>
         <AnchorPane layoutX="520.0" layoutY="2.0">
-            <Button prefHeight="30.0" prefWidth="90.0"
-                    text="Search"/>
-            <TextField fx:id="ProductPartsSearchField" layoutX="100.0" prefHeight="30.0" prefWidth="180.0"
-                       promptText="Part Name"/>
+            <Button layoutY="2.0" prefHeight="30.0" prefWidth="90.0" text="Search" />
+            <TextField fx:id="ProductPartsSearchField" layoutX="100.0" layoutY="2.0" prefHeight="30.0" prefWidth="180.0" promptText="Part Name" />
         </AnchorPane>
         <Pane layoutX="300.0" layoutY="30.0" prefHeight="200.0" prefWidth="500.0">
             <TableView fx:id="allPartsTable" layoutY="20.0" prefHeight="120.0" prefWidth="500.0">
@@ -52,8 +38,7 @@
                     <TableColumn fx:id="allPartsPriceColumn" prefWidth="125.0" text="Price Per Unit" />
                 </columns>
             </TableView>
-            <Button layoutX="440.0" layoutY="150.0" prefHeight="30.0" prefWidth="60.0" text="Add"
-                    onAction="#addPartToProduct" />
+            <Button layoutX="440.0" layoutY="150.0" onAction="#addPartToProduct" prefHeight="30.0" prefWidth="60.0" text="Add" />
         </Pane>
         <Pane layoutX="300.0" layoutY="230.0" prefHeight="200.0" prefWidth="500.0">
             <TableView fx:id="currentPartsTable" layoutY="20.0" prefHeight="120.0" prefWidth="500.0">
@@ -64,12 +49,11 @@
                     <TableColumn fx:id="currentPartsPriceColumn" prefWidth="125.0" text="Price Per Unit" />
                 </columns>
             </TableView>
-            <Button layoutX="440.0" layoutY="150.0" prefHeight="30.0" prefWidth="60.0" text="Delete"
-                    onAction="#removePartToProduct" />
+            <Button layoutX="440.0" layoutY="150.0" onAction="#removePartToProduct" prefHeight="30.0" prefWidth="60.0" text="Delete" />
         </Pane>
         <AnchorPane layoutX="640.0" layoutY="430.0">
-            <Button layoutX="85.0" prefHeight="30.0" prefWidth="75.0" onAction="#onCancelClick" text="Cancel" />
-            <Button prefHeight="30.0" prefWidth="75.0" onAction="#onSaveClick" text="Save" />
+            <Button layoutX="85.0" onAction="#onCancelClick" prefHeight="30.0" prefWidth="75.0" text="Cancel" />
+            <Button onAction="#onSaveClick" prefHeight="30.0" prefWidth="75.0" text="Save" />
         </AnchorPane>
     </AnchorPane>
 </AnchorPane>
