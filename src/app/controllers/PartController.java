@@ -41,12 +41,11 @@ public class PartController {
         if(part == null) {
             int partId = Inventory.getPartsCount();
             idField.setText(String.valueOf(partId));
+            this.setFieldToMachineId();
         }
         else {
             this.setModifiedPartFields(part);
         }
-
-        this.setFieldToMachineId();
     }
 
     public void onSelectInHouse(ActionEvent actionEvent) {
@@ -58,11 +57,15 @@ public class PartController {
     }
 
     private void setFieldToMachineId() {
+        this.inHouseRadioBtn.setSelected(true);
+        this.outsourcedRadioBtn.setSelected(false);
         this.sourceTypeConditionalLabel.setText("Machine Id");
         this.sourceTypeConditionalField.setPromptText("Mach Id");
     }
 
     private void setFieldToCompanyName() {
+        this.outsourcedRadioBtn.setSelected(true);
+        this.inHouseRadioBtn.setSelected(false);
         this.sourceTypeConditionalLabel.setText("Company Name");
         this.sourceTypeConditionalField.setPromptText("Comp Nm");
     }
@@ -145,10 +148,12 @@ public class PartController {
         if(part instanceof OutsourcedPart) {
             OutsourcedPart outsourcedPart = (OutsourcedPart)part;
             conditionalText = outsourcedPart.getCompanyName();
+            this.setFieldToCompanyName();
         }
         else {
             InHousePart inHousePart = (InHousePart)part;
             conditionalText = String.valueOf(inHousePart.getMachineId());
+            this.setFieldToMachineId();
         }
 
         sourceTypeConditionalField.setText(conditionalText);
