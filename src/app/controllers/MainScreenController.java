@@ -47,6 +47,10 @@ public class MainScreenController {
         return selectedPart;
     }
 
+    public static void setSelectedPart(AbstractPart part) {
+        selectedPart = part;
+    }
+
     public static Product getSelectedProduct() {
         return selectedProduct;
     }

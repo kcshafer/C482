@@ -19,6 +19,7 @@ import app.models.InHousePart;
 import app.models.Inventory;
 import app.models.OutsourcedPart;
 import static app.controllers.MainScreenController.getSelectedPart;
+import static app.controllers.MainScreenController.setSelectedPart;
 
 
 public class PartController {
@@ -44,6 +45,7 @@ public class PartController {
         else {
             this.setModifiedPartFields(part);
         }
+
         this.setFieldToMachineId();
     }
 
@@ -115,17 +117,13 @@ public class PartController {
     }
 
     public void onCancelClick(ActionEvent actionEvent) throws IOException {
-        final String PART_SCREEN_PATH = "../views/MainScreen.fxml";
-        Parent partsScreenLoader = FXMLLoader.load(getClass().getResource(PART_SCREEN_PATH));
-
-        Scene partsScene = new Scene(partsScreenLoader);
-        Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        window.setScene(partsScene);
-        window.show();
+        this.openMainScreen(actionEvent);
     }
 
 
     private void openMainScreen(ActionEvent actionEvent) throws IOException {
+        setSelectedPart(null);
+
         final String MAIN_SCREEN_PATH = "../views/MainScreen.fxml";
         Parent partsScreenLoader = FXMLLoader.load(getClass().getResource(MAIN_SCREEN_PATH));
 
@@ -142,5 +140,17 @@ public class PartController {
         priceField.setText(String.valueOf(part.getPrice()));
         minField.setText(String.valueOf(part.getMin()));
         maxField.setText(String.valueOf(part.getMax()));
+
+        String conditionalText;
+        if(part instanceof OutsourcedPart) {
+            OutsourcedPart outsourcedPart = (OutsourcedPart)part;
+            conditionalText = outsourcedPart.getCompanyName();
+        }
+        else {
+            InHousePart inHousePart = (InHousePart)part;
+            conditionalText = String.valueOf(inHousePart.getMachineId());
+        }
+
+        sourceTypeConditionalField.setText(conditionalText);
     }
 }
