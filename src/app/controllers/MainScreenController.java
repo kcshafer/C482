@@ -83,7 +83,9 @@ public class MainScreenController {
     public void onModifyProductClick(ActionEvent actionEvent) throws IOException {
         selectedProduct = (Product)productsTable.getSelectionModel().getSelectedItem();
 
-        this.openProductScreen(actionEvent);
+        if (selectedProduct != null) {
+            this.openProductScreen(actionEvent);
+        }
     }
 
     @FXML
@@ -115,9 +117,11 @@ public class MainScreenController {
 
     @FXML
     public void onModifyPartClick(ActionEvent actionEvent) throws IOException {
-        selectedPart = (AbstractPart)partsTable.getSelectionModel().getSelectedItem();
+        selectedPart = (AbstractPart) partsTable.getSelectionModel().getSelectedItem();
 
-        this.openPartScreen(actionEvent);
+        if (selectedPart != null) {
+            this.openPartScreen(actionEvent);
+        }
     }
 
     @FXML
