@@ -49,8 +49,6 @@ public class ProductController {
         this.selectedProduct = getSelectedProduct();
         productParts = FXCollections.observableArrayList();
 
-        System.out.println(selectedProduct);
-
         //if selected part is null, this is a modification
         if(selectedProduct == null) {
             int productId = Inventory.getProductCount();
@@ -79,11 +77,7 @@ public class ProductController {
 
     public void addPartToProduct() {
         AbstractPart part = (AbstractPart)allPartsTable.getSelectionModel().getSelectedItem();
-        System.out.println("add part to product get parts");
-        System.out.println(System.identityHashCode(Inventory.getParts()));
-        System.out.println(System.identityHashCode(Inventory.getParts()));
         allPartsTable.getItems().remove(part);
-        System.out.println(Inventory.getParts().hashCode());
         currentPartsTable.getItems().add(part);
     }
 
