@@ -36,8 +36,15 @@ public class PartController {
 
     @FXML
     public void initialize() {
+        AbstractPart part = getSelectedPart();
+        if(part == null) {
+            int partId = Inventory.getPartsCount();
+            idField.setText(String.valueOf(partId));
+        }
+        else {
+            this.setModifiedPartFields(part);
+        }
         this.setFieldToMachineId();
-        this.setModifiedPartFields();
     }
 
     public void onSelectInHouse(ActionEvent actionEvent) {
@@ -128,19 +135,12 @@ public class PartController {
         window.show();
     }
 
-    private void setModifiedPartFields() {
-        AbstractPart part = getSelectedPart();
-
-        // if part is not null, this is a modification so set the fields to the mod part values
-        if(part != null) {
-            idField.setText(String.valueOf(part.getId()));
-            nameField.setText(part.getName());
-            inventoryCountField.setText(String.valueOf(part.getStock()));
-            priceField.setText(String.valueOf(part.getPrice()));
-            minField.setText(String.valueOf(part.getMin()));
-            maxField.setText(String.valueOf(part.getMax()));
-
-            //TODO: can't set the variable field w/o knowing the basetype of the part
-        }
+    private void setModifiedPartFields(AbstractPart part) {
+        idField.setText(String.valueOf(part.getId()));
+        nameField.setText(part.getName());
+        inventoryCountField.setText(String.valueOf(part.getStock()));
+        priceField.setText(String.valueOf(part.getPrice()));
+        minField.setText(String.valueOf(part.getMin()));
+        maxField.setText(String.valueOf(part.getMax()));
     }
 }

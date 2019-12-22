@@ -26,7 +26,7 @@
         <Label layoutY="168.0" prefHeight="16.0" prefWidth="75.0" text="Min" />
         <Label layoutX="225.0" layoutY="168.0" prefHeight="16.0" prefWidth="60.0" text="Max" />
         <Label fx:id="sourceTypeConditionalLabel" layoutY="208.0" prefHeight="17.0" prefWidth="120.0" text="Company Name" />
-        <TextField fx:id="idField" disable="true" editable="false" layoutX="120.0" prefHeight="30.0" prefWidth="150.0" promptText="Auto Gen - Disabled" />
+        <TextField fx:id="idField" disable="true" editable="false" layoutX="120.0" prefHeight="30.0" prefWidth="150.0" promptText="Id" />
         <TextField fx:id="nameField" layoutX="120.0" layoutY="40.0" prefHeight="30.0" prefWidth="150.0" promptText="Part Name" />
         <TextField fx:id="inventoryCountField" layoutX="120.0" layoutY="80.0" prefHeight="30.0" prefWidth="150.0" promptText="Inv" />
         <TextField fx:id="priceField" layoutX="120.0" layoutY="120.0" prefHeight="30.0" prefWidth="150.0" promptText="Price/Cost" />
