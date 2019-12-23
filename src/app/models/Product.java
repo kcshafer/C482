@@ -4,10 +4,8 @@ import app.exceptions.ModelValidationException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.Formatter;
-
 public class Product {
-    private ObservableList<AbstractPart> associatedParts;
+    private ObservableList<Part> associatedParts;
     private int id;
     private String name;
     private double price;
@@ -15,19 +13,26 @@ public class Product {
     private int min;
     private int max;
 
-    public Product() {
+    public Product(int id, String name, double price, int stock, int min, int max) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
+        this.min = min;
+        this.max = max;
+
         this.associatedParts = FXCollections.observableArrayList();
     }
 
-    public void addAssociatedPart(AbstractPart part) {
+    public void addAssociatedPart(Part part) {
         this.associatedParts.add(part);
     }
 
-    public boolean deleteAssociatedPart(AbstractPart part) {
+    public boolean deleteAssociatedPart(Part part) {
         return this.associatedParts.remove(part);
     }
 
-    public ObservableList<AbstractPart> getAllAssociatedParts() {
+    public ObservableList<Part> getAllAssociatedParts() {
         return this.associatedParts;
     }
 

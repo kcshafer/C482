@@ -4,7 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Inventory {
-    private final static ObservableList<AbstractPart> allParts;
+    private final static ObservableList<Part> allParts;
     private final static ObservableList<Product> allProducts;
 
 
@@ -15,7 +15,7 @@ public class Inventory {
 
     public Inventory() {}
 
-    public static void addPart(AbstractPart part) {
+    public static void addPart(Part part) {
         allParts.add(part);
     }
 
@@ -23,9 +23,9 @@ public class Inventory {
         allProducts.add(product);
     }
 
-    public static AbstractPart lookupPart(int partId) {
-        AbstractPart targetPart = null;
-        for(AbstractPart part : allParts) {
+    public static Part lookupPart(int partId) {
+        Part targetPart = null;
+        for(Part part : allParts) {
             if(part.getId() == partId) {
                 targetPart = part;
             }
@@ -45,7 +45,7 @@ public class Inventory {
         return targetProduct;
     }
 
-    public static void updatePart(int index, AbstractPart part) {
+    public static void updatePart(int index, Part part) {
         allParts.set(index, part);
     }
 
@@ -53,7 +53,7 @@ public class Inventory {
         allProducts.set(index, updatedProduct);
     }
 
-    public static void deletePart(AbstractPart part) {
+    public static void deletePart(Part part) {
         allParts.remove(part);
     }
 
@@ -61,7 +61,7 @@ public class Inventory {
         allProducts.remove(product);
     }
 
-    public static ObservableList<AbstractPart> getAllParts() {
+    public static ObservableList<Part> getAllParts() {
         return allParts;
     }
 
@@ -73,7 +73,7 @@ public class Inventory {
         return allProducts.size();
     }
 
-    public static ObservableList<AbstractPart> getParts() {
+    public static ObservableList<Part> getParts() {
         return allParts;
     }
 

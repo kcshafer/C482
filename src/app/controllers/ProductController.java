@@ -3,7 +3,7 @@ package app.controllers;
 import java.io.IOException;
 
 import app.exceptions.ModelValidationException;
-import app.models.AbstractPart;
+import app.models.Part;
 import app.models.Inventory;
 import app.models.Product;
 import javafx.collections.FXCollections;
@@ -41,8 +41,9 @@ public class ProductController {
     public TableColumn currentPartsNameColumn;
     public TableColumn currentPartsInStockColumn;
     public TableColumn currentPartsPriceColumn;
+    public TextField productPartsSearchField;
 
-    private ObservableList<AbstractPart> productParts;
+    private ObservableList<Part> productParts;
     private Product selectedProduct;
 
     public void initialize() {
@@ -60,10 +61,10 @@ public class ProductController {
             productParts = selectedProduct.getAllAssociatedParts();
         }
 
-        allPartsIdColumn.setCellValueFactory(new PropertyValueFactory<AbstractPart, String>("id"));
-        allPartsNameColumn.setCellValueFactory(new PropertyValueFactory<AbstractPart, String>("name"));
-        allPartsInStockColumn.setCellValueFactory(new PropertyValueFactory<AbstractPart, String>("stock"));
-        allPartsPriceColumn.setCellValueFactory(new PropertyValueFactory<AbstractPart, String>("price"));
+        allPartsIdColumn.setCellValueFactory(new PropertyValueFactory<Part, String>("id"));
+        allPartsNameColumn.setCellValueFactory(new PropertyValueFactory<Part, String>("name"));
+        allPartsInStockColumn.setCellValueFactory(new PropertyValueFactory<Part, String>("stock"));
+        allPartsPriceColumn.setCellValueFactory(new PropertyValueFactory<Part, String>("price"));
 
         currentPartsIdColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("id"));
         currentPartsNameColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
@@ -76,32 +77,28 @@ public class ProductController {
     }
 
     public void addPartToProduct() {
-        AbstractPart part = (AbstractPart)allPartsTable.getSelectionModel().getSelectedItem();
+        Part part = (Part)allPartsTable.getSelectionModel().getSelectedItem();
         allPartsTable.getItems().remove(part);
         currentPartsTable.getItems().add(part);
     }
 
     public void removePartToProduct(ActionEvent actionEvent) {
-        AbstractPart part = (AbstractPart)currentPartsTable.getSelectionModel().getSelectedItem();
+        Part part = (Part)currentPartsTable.getSelectionModel().getSelectedItem();
         currentPartsTable.getItems().remove(part);
         allPartsTable.getItems().add(part);
     }
 
     public void onSaveClick(ActionEvent actionEvent) throws IOException {
-        String productName = nameField.getText();
-        String productInv = inStockField.getText();
-        String productPrice = priceField.getText();
-        String productMin = minField.getText();
-        String productMax = maxField.getText();
+        String name = nameField.getText();
+        int stock = Integer.parseInt(inStockField.getText().equals("") ? "0" : inStockField.getText());
+        double price = Double.parseDouble(priceField.getText().equals("") ? "0"  : priceField.getText());
+        int min = Integer.parseInt(minField.getText().equals("") ? "0" : minField.getText());
+        int max = Integer.parseInt(minField.getText().equals("") ? "0" : minField.getText());
 
-        Product product = new Product();
-        product.setName(productName);
-        product.setStock(Integer.parseInt(productInv.equals("") ? "0" : productInv));
-        product.setPrice(Double.parseDouble(productPrice.equals("") ? "0"  : productPrice));
-        product.setMin(Integer.parseInt(productMin.equals("") ? "0" : productMin));
-        product.setMax(Integer.parseInt(productMax.equals("") ? "0" : productMax));
+        Product product = new Product(Inventory.getProductCount(), name, price, stock, min, max);
 
-        for(AbstractPart part : productParts) {
+
+        for(Part part : productParts) {
             product.addAssociatedPart(part);
         }
 
@@ -113,7 +110,6 @@ public class ProductController {
                 product.setId(selectedProduct.getId());
                 Inventory.updateProduct(selectedProduct.getId(), product);
             } else {
-                product.setId(Inventory.getProductCount());
                 Inventory.addProduct(product);
             }
 
@@ -131,6 +127,20 @@ public class ProductController {
         this.openMainScreen(actionEvent);
     }
 
+    public void onProductPartSearch(ActionEvent actionEvent) {
+        String partSearchText = productPartsSearchField.getText();
+        if (partSearchText.length() > 0) {
+            int partId = Integer.parseInt(partSearchText);
+            Part part = Inventory.lookupPart(partId);
+
+            ObservableList<Part> parts = FXCollections.observableArrayList(part);
+
+            allPartsTable.setItems(parts);
+        } else {
+            this.populateAllPartsTable();
+        }
+    }
+
     private void setModifiedProductFields(Product product) {
         idField.setText(String.valueOf(product.getId()));
         nameField.setText(product.getName());
@@ -143,13 +153,13 @@ public class ProductController {
     private void populateAllPartsTable() {
         // this assigns the parts to new memory so that the inventory parts array is separate memory assignment from
         // the product all parts table array
-        ObservableList<AbstractPart> parts = FXCollections.observableArrayList();
-        ObservableList<AbstractPart> associatedParts = this.selectedProduct != null ?
+        ObservableList<Part> parts = FXCollections.observableArrayList();
+        ObservableList<Part> associatedParts = this.selectedProduct != null ?
                                                        this.selectedProduct.getAllAssociatedParts() :
                                                        FXCollections.observableArrayList();
 
         //this prevents adding parts that are already associated to the product to the all parts table
-        for(AbstractPart part : Inventory.getParts()) {
+        for(Part part : Inventory.getParts()) {
             if(!associatedParts.contains(part)) {
                parts.add(part);
             }

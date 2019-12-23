@@ -14,10 +14,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 
-import app.models.AbstractPart;
-import app.models.InHousePart;
+import app.models.Part;
+import app.models.InHouse;
 import app.models.Inventory;
-import app.models.OutsourcedPart;
+import app.models.Outsourced;
 import static app.controllers.MainScreenController.getSelectedPart;
 import static app.controllers.MainScreenController.setSelectedPart;
 
@@ -37,7 +37,7 @@ public class PartController {
 
     @FXML
     public void initialize() {
-        AbstractPart part = getSelectedPart();
+        Part part = getSelectedPart();
         if(part == null) {
             int partId = Inventory.getPartsCount();
             idField.setText(String.valueOf(partId));
@@ -78,42 +78,37 @@ public class PartController {
         Integer min = Integer.parseInt(this.minField.getText());
         Integer max = Integer.parseInt(this.maxField.getText());
 
-        AbstractPart part;
+        Part part;
 
         // determine what type of part we are creating
         if (inHouseRadioBtn.isSelected()) {
-            InHousePart inHousePart = new InHousePart();
-            inHousePart.setName(name);
-            inHousePart.setPrice(price);
-            inHousePart.setStock(inventoryCount);
-            inHousePart.setMin(min);
-            inHousePart.setMax(max);
-
             Integer machineId = Integer.parseInt(this.sourceTypeConditionalField.getText());
-            inHousePart.setMachineId(machineId);
-            part = inHousePart;
-        } else {
-            OutsourcedPart outsourcedPart = new OutsourcedPart();
-            outsourcedPart.setName(name);
-            outsourcedPart.setPrice(price);
-            outsourcedPart.setStock(inventoryCount);
-            outsourcedPart.setMin(min);
-            outsourcedPart.setMax(max);
 
-            outsourcedPart.setCompanyName(this.sourceTypeConditionalField.getText());
-            part = outsourcedPart;
+            InHouse inHouse = new InHouse(Inventory.getPartsCount(), name, price, inventoryCount, min, max, machineId);
+
+            part = inHouse;
+        } else {
+            Outsourced outsourced = new Outsourced(Inventory.getPartsCount(), name, price, inventoryCount, min, max,
+                    this.sourceTypeConditionalField.getText());
+            outsourced.setName(name);
+            outsourced.setPrice(price);
+            outsourced.setStock(inventoryCount);
+            outsourced.setMin(min);
+            outsourced.setMax(max);
+
+            part = outsourced;
         }
 
         // set part id if not modified
-        AbstractPart selectedPart = getSelectedPart();
+        Part selectedPart = getSelectedPart();
 
-        if (selectedPart == null) {
-            part.setId(Inventory.getPartsCount());
-            Inventory.addPart(part);
-        } else {
+        if(selectedPart != null) {
             int partId = selectedPart.getId();
             part.setId(partId);
             Inventory.updatePart(part.getId(), part);
+        }
+        else {
+            Inventory.addPart(part);
         }
 
         this.openMainScreen(actionEvent);
@@ -136,7 +131,7 @@ public class PartController {
         window.show();
     }
 
-    private void setModifiedPartFields(AbstractPart part) {
+    private void setModifiedPartFields(Part part) {
         idField.setText(String.valueOf(part.getId()));
         nameField.setText(part.getName());
         inventoryCountField.setText(String.valueOf(part.getStock()));
@@ -145,14 +140,14 @@ public class PartController {
         maxField.setText(String.valueOf(part.getMax()));
 
         String conditionalText;
-        if(part instanceof OutsourcedPart) {
-            OutsourcedPart outsourcedPart = (OutsourcedPart)part;
-            conditionalText = outsourcedPart.getCompanyName();
+        if(part instanceof Outsourced) {
+            Outsourced outsourced = (Outsourced)part;
+            conditionalText = outsourced.getCompanyName();
             this.setFieldToCompanyName();
         }
         else {
-            InHousePart inHousePart = (InHousePart)part;
-            conditionalText = String.valueOf(inHousePart.getMachineId());
+            InHouse inHouse = (InHouse)part;
+            conditionalText = String.valueOf(inHouse.getMachineId());
             this.setFieldToMachineId();
         }
 

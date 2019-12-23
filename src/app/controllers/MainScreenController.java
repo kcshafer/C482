@@ -1,6 +1,6 @@
 package app.controllers;
 
-import app.models.AbstractPart;
+import app.models.Part;
 import app.models.Inventory;
 import app.models.Product;
 import javafx.collections.FXCollections;
@@ -33,7 +33,7 @@ public class MainScreenController {
     public TableColumn productPriceCol;
     public TableView productsTable;
 
-    private static AbstractPart selectedPart;
+    private static Part selectedPart;
     private static Product selectedProduct;
 
     @FXML
@@ -43,11 +43,11 @@ public class MainScreenController {
         this.loadProductsTable();
     }
 
-    public static AbstractPart getSelectedPart() {
+    public static Part getSelectedPart() {
         return selectedPart;
     }
 
-    public static void setSelectedPart(AbstractPart part) {
+    public static void setSelectedPart(Part part) {
         selectedPart = part;
     }
 
@@ -62,7 +62,7 @@ public class MainScreenController {
     @FXML
     public void onSearchProductClick(ActionEvent actionEvent) throws IOException {
         String productSearchText = productsSearchField.getText();
-        if (!productSearchText.isBlank()) {
+        if (productSearchText.length() > 0) {
             int productId = Integer.parseInt(productSearchText);
             Product product = Inventory.lookupProduct(productId);
 
@@ -98,11 +98,11 @@ public class MainScreenController {
     @FXML
     public void onSearchPartClick(ActionEvent actionEvent) throws IOException {
         String partSearchText = partsSearchText.getText();
-        if (!partSearchText.isBlank()) {
+        if (partSearchText.length() > 0) {
             int partId = Integer.parseInt(partSearchText);
-            AbstractPart part = Inventory.lookupPart(partId);
+            Part part = Inventory.lookupPart(partId);
 
-            ObservableList<AbstractPart> parts = FXCollections.observableArrayList(part);
+            ObservableList<Part> parts = FXCollections.observableArrayList(part);
 
             partsTable.setItems(parts);
         } else {
@@ -117,7 +117,7 @@ public class MainScreenController {
 
     @FXML
     public void onModifyPartClick(ActionEvent actionEvent) throws IOException {
-        selectedPart = (AbstractPart) partsTable.getSelectionModel().getSelectedItem();
+        selectedPart = (Part) partsTable.getSelectionModel().getSelectedItem();
 
         if (selectedPart != null) {
             this.openPartScreen(actionEvent);
@@ -126,7 +126,7 @@ public class MainScreenController {
 
     @FXML
     public void onDeletePartClick(ActionEvent actionEvent) {
-        AbstractPart part = (AbstractPart) partsTable.getSelectionModel().getSelectedItem();
+        Part part = (Part) partsTable.getSelectionModel().getSelectedItem();
         Inventory.deletePart(part);
         this.loadPartsTable();
     }
@@ -152,10 +152,10 @@ public class MainScreenController {
     }
 
     private void setCellValueFactories() {
-        partIdColumn.setCellValueFactory(new PropertyValueFactory<AbstractPart, String>("id"));
-        partNameColumn.setCellValueFactory(new PropertyValueFactory<AbstractPart, String>("name"));
-        partInvLevelStockCol.setCellValueFactory(new PropertyValueFactory<AbstractPart, String>("stock"));
-        partPriceCol.setCellValueFactory(new PropertyValueFactory<AbstractPart, String>("price"));
+        partIdColumn.setCellValueFactory(new PropertyValueFactory<Part, String>("id"));
+        partNameColumn.setCellValueFactory(new PropertyValueFactory<Part, String>("name"));
+        partInvLevelStockCol.setCellValueFactory(new PropertyValueFactory<Part, String>("stock"));
+        partPriceCol.setCellValueFactory(new PropertyValueFactory<Part, String>("price"));
 
         productIdCol.setCellValueFactory(new PropertyValueFactory<Product, String>("id"));
         productNameCol.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
